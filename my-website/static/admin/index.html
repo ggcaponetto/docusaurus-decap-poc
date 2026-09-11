@@ -4,6 +4,10 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Content Manager</title>
+  <!-- Point Decap at an absolute config URL. Without this it resolves
+       "config.yml" relative to the document, which breaks on /admin
+       (no trailing slash) by fetching /config.yml instead. -->
+  <link href="/admin/config.yml" type="text/yaml" rel="cms-config-url" />
 </head>
 <body>
   <!-- Include the script that builds the page and powers Decap CMS -->

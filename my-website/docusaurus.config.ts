@@ -57,8 +57,10 @@ const config: Config = {
           editUrl:
             'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
           // Useful options to enforce blogging best practices
-          onInlineTags: 'warn',
-          onInlineAuthors: 'warn',
+          // Decap CMS writes tags and authors inline into each post's front
+          // matter, so these would warn on every build.
+          onInlineTags: 'ignore',
+          onInlineAuthors: 'ignore',
           onUntruncatedBlogPosts: 'warn',
         },
         theme: {

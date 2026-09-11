@@ -1,0 +1,45 @@
+# Lets the CMS talk to a local `npx decap-server` instead of GitHub when
+# running on localhost. Ignored on any other host, so it is safe to commit.
+local_backend: true
+
+backend:
+  name: github
+  branch: main
+  repo: ggcaponetto/docusaurus-decap-poc
+  # The GitHub backend authenticates through Netlify's OAuth gateway, which
+  # identifies the site by `site_id`. That defaults to the browser's hostname,
+  # which is wrong anywhere but the deployed site (e.g. a Codespaces forwarded
+  # URL), giving a 404 from api.netlify.com/auth. Pin it to the Netlify domain.
+  site_domain: better-docs-poc.netlify.app
+
+# Paths below are relative to the REPO ROOT, not to the Docusaurus site,
+# so they all need the `my-website/` prefix.
+media_folder: "my-website/static/img" # Where media files are committed in the repo
+public_folder: "/img" # The URL prefix the site serves them from
+
+collections:
+  - name: blog
+    label: "Blog"
+    folder: my-website/blog
+    identifier_field: title
+    extension: md
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}" # Filename template, e.g., YYYY-MM-DD-title.md
+    fields:
+      - { name: title, label: Title, widget: string }
+      - { name: slug, label: Slug, widget: string }
+      - label: "Tags"
+        name: "tags"
+        widget: "list"
+        required: false
+      - label: "Authors"
+        name: "authors"
+        widget: "list"
+        required: false
+        fields:
+          - { name: name, label: Name, widget: string }
+          - { name: title, label: Title, widget: string, required: false }
+          - { name: url, label: URL, widget: string, required: false }
+          # Docusaurus expects `image_url` (or `imageURL`) — not `imageUrl`.
+          - { name: image_url, label: Image URL, widget: string, required: false }
+      - { name: body, label: Body, widget: markdown }
